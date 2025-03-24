@@ -1,10 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { FlatList } from 'react-native'
+import  categories from '../data/categories.json'
+import style from '../global/style'
+import CategoryItem from '../components/CategoryItem'
 
-const Home = ({ navigation }) => {
+
+const Home = ({ navigation}) => {
+  
   return (
-    <View>
-      <Text>Home Hola Luna</Text>
+    <View style={style.containerList}>
+      <FlatList 
+      
+        data={categories}
+        keyExtractor={element => element}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item})=> <CategoryItem category= {item} 
+        navigation={navigation}/>}
+        
+      />
     </View>
   )
 }
