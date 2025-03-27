@@ -3,18 +3,26 @@ import React from 'react'
 import style from '../global/style'
 import Card from './Card'
 import { color } from '../global/color';
+import { useDispatch } from 'react-redux';
 
 
 const ProductItem = ({
     product,
     navigation
   }) => {
+
+    const dispatch = useDispatch()
+
+    const handleNavigate = () => {
+      dispatch(setIdSelected(product.title))
+      navigation.navigate("Detail", { productId: product.id });
+    }
   
     return (
       <Card style={styles.additionalStylesCard}>
         <Pressable
           style={styles.pressable}
-          onPress={() => navigation.navigate('Detail', {productId: product.id})}
+          onPress={handleNavigate}
         >
           <Text style={styles.textCategory}>{product.title}</Text>
           <Image

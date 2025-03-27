@@ -4,12 +4,14 @@ import { FlatList } from 'react-native'
 import  categories from '../data/categories.json'
 import style from '../global/style'
 import CategoryItem from '../components/CategoryItem'
+import Counter from '../components/Counter'
 
 
 const Home = ({ navigation}) => {
   
   return (
     <View style={style.containerList}>
+      <Counter/>
       <FlatList 
       
         data={categories}

@@ -7,6 +7,8 @@ import style from './src/global/style';
 import Home from './src/screens/Home';
 import ItemListCategory from './src/screens/ItemListCategory';
 import { useState } from 'react';
+import { Provider } from 'react-redux';
+import Store from './src/Store/Store';
 
 export default function App() {
 
@@ -16,7 +18,9 @@ export default function App() {
   return (
 
 
-    <Navigator/>
+    <Provider store={Store}>
+        <Navigator />
+      </Provider>
 
 
 

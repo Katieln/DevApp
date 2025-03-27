@@ -5,13 +5,14 @@ import Home from '../screens/Home';
 import Detail from '../screens/Detail';
 import ItemListCategory from '../screens/ItemListCategory';
 import HomeStackNavigator from './HomeStackNavigator';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   return (
     <NavigationContainer>
-    <HomeStackNavigator />
+    <BottomTabNavigator />
     </NavigationContainer>
   )
 }
