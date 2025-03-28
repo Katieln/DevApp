@@ -1,11 +1,11 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import products from '../data/products.json'
 
 import ProductItem from '../components/ProductItem'
-import style from '../global/style'
 import Search from '../components/Search'
 import { color } from '../global/color'
+import { useGetProductsByCategoryQuery } from '../services/ShopService'
+
 
 const ItemListCategory = ({
     route,
@@ -16,28 +16,27 @@ const ItemListCategory = ({
     const [error, setError] = useState("");
   
     const {category: categorySelected} = route.params;
-    //console.log(category)
-    console.log(categorySelected)
+
+    const { data: productsFetched, error: errorProducts, isLoading } = useGetProductsByCategoryQuery(categorySelected)
   
     useEffect(() => {
       regex = /\d/;
       const hasDigit = regex.test(keyWord);
-      //console.log(hasDigit);
+
       if (hasDigit) {
         setError("No se permiten números en la búsqueda");
         return;
       }
   
-      const productsPrefiltered = products.filter(
-        (product) => product.category === categorySelected
-      );
+      if(!isLoading){
       // Product filtered by name
-      const productsFilter = productsPrefiltered.filter((product) =>
+      const productsFilter = productsFetched.filter((product) =>
         product.title.toLocaleLowerCase().includes(keyWord.toLocaleLowerCase())
       );
       setProductsFiltered(productsFilter);
       setError("");
-    }, [keyWord, categorySelected]);
+    }
+    }, [keyWord, categorySelected, productsFetched, isLoading]);
     return (
       <View style={styles.flatListContainer}>
         <Search

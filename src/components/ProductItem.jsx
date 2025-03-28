@@ -4,6 +4,7 @@ import style from '../global/style'
 import Card from './Card'
 import { color } from '../global/color';
 import { useDispatch } from 'react-redux';
+import { setIdSelected } from '../features/shop/ShopSlice';
 
 
 const ProductItem = ({

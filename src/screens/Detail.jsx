@@ -7,21 +7,19 @@ import {
   useWindowDimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-
-
-import allProducts from "../data/products.json";
 import style from "../global/style";
 import { color } from "../global/color";
+import { useGetProductByIdQuery } from "../services/ShopService";
 
 const Detail = ({route, navigation}) => {
 
-  const [product, setProduct] = useState(null);
+
   const [orientation, setHorientation] = useState('portrait');
   const { width, height } = useWindowDimensions();
 
   const {productId: idSelected} = route.params
 
-
+ const { data: product, error, isLoading } = useGetProductByIdQuery(idSelected);
 
   useEffect(() => {
     if(width > height) setHorientation("landscape")
@@ -30,12 +28,12 @@ const Detail = ({route, navigation}) => {
 
 
 
-  useEffect(()=>{
-    const productSelected = allProducts.find(
-      (product) => product.id === idSelected
-    );
-    setProduct(productSelected);
-  }, [idSelected])
+  // useEffect(()=>{
+  //   const productSelected = allProducts.find(
+  //     (product) => product.id === idSelected
+  //   );
+  //   setProduct(productSelected);
+  // }, [idSelected])
 
   return (
     <View style={style.detail}>
