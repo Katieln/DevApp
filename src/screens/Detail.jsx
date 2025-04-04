@@ -33,14 +33,13 @@ const Detail = ({route, navigation}) => {
 
     const handledAddCart = () => {
       console.log("Add to cart");
-      if (!product) return; // Asegura que el producto esté disponible antes de agregarlo al carrito
-      
+      if (!product) return;       
       const cartItem = {
         id: product.id,
         title: product.title,
         price: product.price,
         quantity: 1, 
-        image: product.images[0], // Asegurar que tiene la información necesaria
+        image: product.images[0], 
       };
     
       dispatch(addCartItem(cartItem));

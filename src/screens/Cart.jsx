@@ -16,19 +16,19 @@ const Cart = () => {
       triggerPostOrder({items: CartData, user: "Luna", total})
   
     }
-
+ 
   return (
     <View style={styles.container}>
       <FlatList
         data={CartData}
-        keyExtractor={(pepe) => pepe.id}
+        keyExtractor={(k) => k.id}
         renderItem={({ item }) => {
           return <CartItem cartItem={item} />;
         }}
       />
       <View style={styles.totalContainer}>
-        <Pressable>
-          <Text>Confirm</Text>
+        <Pressable style={styles.button} onPress={onConfirmOrder}>
+          <text style={styles.buttonText}>Confirm</text>
         </Pressable>
         <Text>Total: ${total}</Text>
       </View>
@@ -48,5 +48,20 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  button: {
+    backgroundColor: "#007BFF", // Color azul
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#0056b3",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#FFF", // Texto en blanco
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
