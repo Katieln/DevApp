@@ -13,7 +13,7 @@ const HomeStackNavigator = () => {
     <Stack.Navigator 
         initialRouteName="Home" 
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           headerStyle: {
             backgroundColor: color.bluebase, // Cambia el color de fondo del header
           },

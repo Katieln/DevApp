@@ -10,12 +10,17 @@ import React, { useEffect, useState } from "react";
 import style from "../global/style";
 import { color } from "../global/color";
 import { useGetProductByIdQuery } from "../services/ShopService";
+import { addCartItem } from "../features/cart/CartSlice";
+import { useDispatch } from "react-redux";
+
 
 const Detail = ({route, navigation}) => {
 
 
   const [orientation, setHorientation] = useState('portrait');
   const { width, height } = useWindowDimensions();
+  const dispatch = useDispatch();
+
 
   const {productId: idSelected} = route.params
 
@@ -26,14 +31,21 @@ const Detail = ({route, navigation}) => {
     else setHorientation("portrait")
     }, [width, height]);
 
-
-
-  // useEffect(()=>{
-  //   const productSelected = allProducts.find(
-  //     (product) => product.id === idSelected
-  //   );
-  //   setProduct(productSelected);
-  // }, [idSelected])
+    const handledAddCart = () => {
+      console.log("Add to cart");
+      if (!product) return; // Asegura que el producto esté disponible antes de agregarlo al carrito
+      
+      const cartItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: 1, 
+        image: product.images[0], // Asegurar que tiene la información necesaria
+      };
+    
+      dispatch(addCartItem(cartItem));
+    };
+    
 
   return (
     <View style={style.detail}>
@@ -55,6 +67,7 @@ const Detail = ({route, navigation}) => {
             <Text>{product.title}</Text>
             <Text>{product.description}</Text>
             <Text style={styles.price}>${product.price}</Text>
+            <Button title="Add cart" onPress={handledAddCart}></Button>
           </View>
         </View>
       ) : null} 
