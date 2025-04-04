@@ -1,25 +1,40 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import style from '../global/style'
+import { useSelector } from "react-redux";
 
+const Header = ({ route }) => {
+  const { user } = useSelector((state) => state.auth.value); 
 
-const Header = ({title="Hola!"}) => {
   return (
-    <View style={style.containerHeader}>
-      <Text>{title}</Text>
+    <View style={styles.container}>
+      {user && <Text style={styles.userText}>Bienvenido, {user}</Text>} 
+      <Text style={styles.title}>{route.name}</Text>
     </View>
-  )
-}
+  );
+};
 
 export default Header
 
 
 
-// //     container: {
-//     marginTop: 40,
-//     height: 100,
-//     width:'100%',
-//     backgroundColor: color.lila,
-//     justifyContent: 'center',
-//     alignItems: 'center'
-// }//
+const styles = StyleSheet.create({
+  container: {
+    height: 80,
+    backgroundColor: "#007BFF",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  title: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  userText: {
+    color: "white",
+    fontSize: 14,
+    position: "absolute",
+    left: 20,
+    top: 30,
+  },
+});

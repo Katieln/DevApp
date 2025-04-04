@@ -9,13 +9,22 @@ const Cart = () => {
 
 
     const{items: CartData=[], total} = useSelector((state) => state.cart.value);
+    const { user } = useSelector((state) => state.auth.value); //
     const [triggerPostOrder, result] = usePostOrderMutation()
 
   
-    onConfirmOrder = () => {
-      triggerPostOrder({items: CartData, user: "Luna", total})
+    const onConfirmOrder = () => {
+      if (!user) {
+        alert("Debes iniciar sesión para hacer un pedido.");
+        return;
+      }
   
-    }
+      triggerPostOrder({
+        items: CartData,
+        user,    
+        total,
+      });
+    };
  
   return (
     <View style={styles.container}>
@@ -28,7 +37,7 @@ const Cart = () => {
       />
       <View style={styles.totalContainer}>
         <Pressable style={styles.button} onPress={onConfirmOrder}>
-          <text style={styles.buttonText}>Confirm</text>
+          <Text style={styles.buttonText}>Confirmar Orden </Text>
         </Pressable>
         <Text>Total: ${total}</Text>
       </View>

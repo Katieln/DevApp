@@ -10,35 +10,45 @@ import CartStackNavigator from './CartStackNavigator';
 import OrderStackNavigator from './OrderStackNavigator';
 
 import Header from '../components/Header';
+import { useSelector } from 'react-redux';
 
-import CartTemp from '../screens/CartTemp';
-import OrderTemp from '../screens/OrdersTemp';
+
 
 const Tab = createBottomTabNavigator();
 
 
 const BottomTabNavigator = () => {
+  const { user } = useSelector((state) => state.auth.value);
   return (
-    <Tab.Navigator
+    <Tab.Navigator 
       screenOptions={({route})=>({
         tabBar: ()=> {
           return <Header route={route} />
         }, 
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         tabBarStyle: styles.tabBar,
       })}
     >
       <Tab.Screen
-        name="Ecomerce"
+        name={user ? `Ecommerce ${user}` : "Products"}
         component={HomeStackNavigator}
         options={{
+          headerStyle: {
+            backgroundColor: color.blue5, 
+          },
+          headerTitle: () => (
+            <View style={styles.headerContainer}>
+              <Text style={styles.leftText}>Ecommerce</Text>
+              <Text style={styles.rightText}>{user}</Text>
+            </View>
+          ),
           tabBarIcon: ({ focused }) => {
             return (
               <View>
                 <FontAwesome5
                   name="store"
                   size={24}
-                  color={focused ? "black" : color.blue5}
+                  color={focused ? "black" : color.blue3}
                 />
               </View>
             );
@@ -47,9 +57,18 @@ const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="Cart"
+        name={user ? `Cart ${user}` : "Cart"}
         component={CartStackNavigator}
         options={{
+          headerStyle: {
+            backgroundColor: color.blue5, 
+          },
+          headerTitle: () => (
+            <View style={styles.headerContainer}>
+              <Text style={styles.leftText}>Cart</Text>
+              <Text style={styles.rightText}>{user}</Text>
+            </View>
+          ),
           tabBarIcon: ({ focused }) => {
             return (
               <View>
@@ -68,6 +87,15 @@ const BottomTabNavigator = () => {
       name="Orders" 
       component={OrderStackNavigator} 
               options={{
+                headerStyle: {
+                  backgroundColor: color.blue5, 
+                },
+                headerTitle: () => (
+                  <View style={styles.headerContainer}>
+                    <Text style={styles.leftText}>Orders</Text>
+                    <Text style={styles.rightText}>{user}</Text>
+                  </View>
+                ),
           tabBarIcon: ({focused}) => {
             return (
               <View>
@@ -94,5 +122,23 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderRadius: 15,
     height: 60,
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 16,
+    
+  },
+  leftText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  rightText: {
+    fontSize: 16,
+    color: 'black',
   },
 });

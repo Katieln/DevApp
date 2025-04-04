@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   text2: {
     fontFamily: "Josefin",
     fontSize: 19,
-    color: "gray",
+    color: "white",
   },
 });

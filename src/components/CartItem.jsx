@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
   },
   text2: {
 
-    color: color.blue5,
+    color: color.white,
   },
 });
