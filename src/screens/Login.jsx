@@ -14,31 +14,36 @@ const Login = ({navigation}) => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [loginError, setLoginError] = useState(null);
 
     const {insertSession} = useDB();
 
     useEffect(() => {
-        if (result?.data && result.isSuccess) {
-         (async () => {
-           try {
-             const response = await insertSession({
-               email: result.data.email,
-               localId: result.data.localId,
-               token: result.data.idToken
-             })
-             dispatch(
-               setUser({
-                 email: result.data.email,
-                 idToken: result.data.idToken,
-                 localId: result.data.localId,
-               })
-             );
-           } catch(err) {
-             alert(err)
-           }
-         })()
+        if (result?.isSuccess && result.data) {
+          (async () => {
+            try {
+              const response = await insertSession({
+                email: result.data.email,
+                localId: result.data.localId,
+                token: result.data.idToken
+              });
+              dispatch(
+                setUser({
+                  email: result.data.email,
+                  idToken: result.data.idToken,
+                  localId: result.data.localId,
+                })
+              );
+              setLoginError(null); // limpia error si fue exitoso
+            } catch (err) {
+              setLoginError("Error al guardar sesión");
+            }
+          })();
+        } else if (result?.isError) {
+          setLoginError("Email o contraseña incorrectos"); // o lo que venga del backend
         }
       }, [result]);
+      
 
 
     const onSubmit = () => {
@@ -56,6 +61,9 @@ const Login = ({navigation}) => {
             error={""}
             isSecure={true}
           />
+          {loginError && (
+  <Text style={styles.errorText}>{loginError}</Text>
+)}
           <SubmitButton onPress={onSubmit} title="Ingresar" />
           <Text style={styles.sub}>No tienes cuenta?</Text>
           <Pressable onPress={() => navigation.navigate("Register")}>
@@ -97,4 +105,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "blue",
       },
+      errorText: {
+        color: 'red',
+        fontSize: 14,
+        textAlign: 'center',
+        paddingHorizontal: 10,
+      },
+      
 })
