@@ -40,7 +40,7 @@ const BottomTabNavigator = () => {
           },
           headerTitle: () => (
             <View style={styles.headerContainer}>
-              <Text style={styles.leftText}>Ecommerce</Text>
+              <Text style={styles.leftText}>Profile</Text>
               <Text style={styles.rightText}>{user}</Text>
             </View>
           ),
