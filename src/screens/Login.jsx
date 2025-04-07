@@ -34,7 +34,7 @@ const Login = ({navigation}) => {
                })
              );
            } catch(err) {
-             console.log(err)
+             alert(err)
            }
          })()
         }
