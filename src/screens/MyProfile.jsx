@@ -1,19 +1,37 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import AddButton from '../components/AddButton'
 import { useGetProfileImageQuery } from '../services/ShopService'
 useGetProfileImageQuery
+import { useDB } from '../hooks/useDB'
+import { clearUser } from '../features/user/UserSlice'
+
+
+
 const MyProfile = ({navigation}) => {
 
   const {imageCamera, localId} = useSelector(state => state.auth.value)
   const {data: imageFromBase} = useGetProfileImageQuery(localId)
+  const {truncateSessionTable} = useDB()
+  const dispatch = useDispatch()
+
 
 
   const launchCamera = () => {
     navigation.navigate('Image selector')
   }
+
+  const signOut = async () => {
+    try {
+      const response = await truncateSessionTable()
+      dispatch(clearUser())
+    }catch(err) {
+      console.log(err)
+    }
+  }
+
 
   const defaultImageRoute = "../../assets/defaultProfile.png"
   return (
@@ -33,16 +51,9 @@ const MyProfile = ({navigation}) => {
         resizeMode='cover'
       />)}
 
-      <AddButton 
-        onPress={launchCamera}
-        title='Add profile picture'
-      />
+<AddButton onPress={launchCamera} title="Add profile picture" />
+      <AddButton onPress={signOut} title="Sign out" />
 
-{/*       
-      Imagien por defecto
-
-      Imagen de pefil 
-*/}
     </View>
   )
 }

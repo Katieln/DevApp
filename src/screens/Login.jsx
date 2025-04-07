@@ -6,6 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import { useSignInMutation } from '../services/AuthService';
 import { setUser } from '../features/user/UserSlice';
 import { color } from '../global/color';
+import { useDB } from '../hooks/useDB';
 
 const Login = ({navigation}) => {
     const dispatch = useDispatch();
@@ -14,27 +15,30 @@ const Login = ({navigation}) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-
-    useEffect(()=> {
-
-        if(result.isSuccess){
-          dispatch(
-            setUser({
-              email: result.data.email,
-              token: result.data.idToken,
-              localId: result.data.localId
-            })
-          )
-        }
-    }, [result])
+    const {insertSession} = useDB();
 
     useEffect(() => {
-        if (result.isError) {
-
-          alert("Email o contraseña incorrectos");
+        if (result?.data && result.isSuccess) {
+         (async () => {
+           try {
+             const response = await insertSession({
+               email: result.data.email,
+               localId: result.data.localId,
+               token: result.data.idToken
+             })
+             dispatch(
+               setUser({
+                 email: result.data.email,
+                 idToken: result.data.idToken,
+                 localId: result.data.localId,
+               })
+             );
+           } catch(err) {
+             console.log(err)
+           }
+         })()
         }
       }, [result]);
-      
 
 
     const onSubmit = () => {
