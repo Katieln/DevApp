@@ -18,10 +18,14 @@ const Cart = () => {
         alert("Debes iniciar sesión para hacer un pedido.");
         return;
       }
-  
+      
+      const date = new Date().toISOString();
+
+
       triggerPostOrder({
         items: CartData,
-        user,    
+        user, 
+        date,   
         total,
       });
     };

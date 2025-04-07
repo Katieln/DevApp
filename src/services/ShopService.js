@@ -41,13 +41,33 @@ export const shopApi = createApi({
       })
     }),
 
+    getOrders: builder.query({
+      query: () => `orders.json`,
+    }),
+
     updateStock: builder.mutation({
       query: ({...order}) => ({
         url: 'products.json',
         method: 'PATCH',
         body: order
       })
-    })
+    }),
+      //Obtener imagen desde la base de datos
+      getProfileImage: builder.query({
+        query: (localId) => `profileImages/${localId}.json`,
+        providesTags: ["profileImageGet"],
+      }),
+      // Guardar imagen en la base de datos.
+      postProfileImage: builder.mutation({
+        query: ({ image, localId }) => ({
+          url: `profileImages/${localId}.json`,
+          method: "PUT",
+          body: {
+            image: image,
+          },
+        }),
+        invalidatesTags: ["profileImageGet"],
+      }),
   }),
 });
 
@@ -56,5 +76,8 @@ export const {
   useGetProductsByCategoryQuery, 
   useGetProductByIdQuery,
   usePostOrderMutation,
-  useUpdateStockMutation
+  useUpdateStockMutation,
+  useGetOrdersQuery,
+  useGetProfileImageQuery,
+  usePostProfileImageMutation
 } = shopApi 

@@ -11,6 +11,7 @@ import OrderStackNavigator from './OrderStackNavigator';
 
 import Header from '../components/Header';
 import { useSelector } from 'react-redux';
+import MyProfileStackNavigator from './MyProfileStackNavigator';
 
 
 
@@ -29,8 +30,36 @@ const BottomTabNavigator = () => {
         tabBarStyle: styles.tabBar,
       })}
     >
+      
+      <Tab.Screen 
+        name="My Profile"
+        component={MyProfileStackNavigator}
+        options={{
+          headerStyle: {
+            backgroundColor: color.blue5, 
+          },
+          headerTitle: () => (
+            <View style={styles.headerContainer}>
+              <Text style={styles.leftText}>Ecommerce</Text>
+              <Text style={styles.rightText}>{user}</Text>
+            </View>
+          ),
+          tabBarIcon: ({focused})=> {
+            return (
+              <View>
+                <Ionicons
+                  name="person-circle"
+                  size={24}
+                  color={focused ? "black" : color.white}
+                />
+              </View>
+            );
+          }
+        }}
+      />
+
       <Tab.Screen
-        name={user ? `Ecommerce ${user}` : "Products"}
+        name="Ecommerce"
         component={HomeStackNavigator}
         options={{
           headerStyle: {
@@ -57,7 +86,7 @@ const BottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name={user ? `Cart ${user}` : "Cart"}
+        name= "Cart"
         component={CartStackNavigator}
         options={{
           headerStyle: {
@@ -125,7 +154,7 @@ const styles = StyleSheet.create({
   },
 
   headerContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',

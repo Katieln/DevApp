@@ -16,7 +16,7 @@ const Login = ({navigation}) => {
 
 
     useEffect(()=> {
-        console.log("result", result); 
+
         if(result.isSuccess){
           dispatch(
             setUser({
@@ -30,7 +30,7 @@ const Login = ({navigation}) => {
 
     useEffect(() => {
         if (result.isError) {
-          console.log("ERROR DE LOGIN:", result.error);
+
           alert("Email o contraseña incorrectos");
         }
       }, [result]);
